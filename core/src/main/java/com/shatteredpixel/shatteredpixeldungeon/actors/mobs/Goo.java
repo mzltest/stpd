@@ -32,6 +32,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CapeOfThorns;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ChaliceOfBlood;
@@ -303,26 +304,30 @@ public class Goo extends Mob {
 		GameScene.bossSlain();
 		Dungeon.level.drop( new WornKey( Dungeon.depth ), pos ).sprite.drop();
 
-		//Drop all artifacts
-		Dungeon.level.drop( new DriedRose(), pos ).sprite.drop();
-		Dungeon.level.drop( new SandalsOfNature(), pos ).sprite.drop();
-		Dungeon.level.drop( new AlchemistsToolkit(), pos ).sprite.drop();
-		Dungeon.level.drop( new TalismanOfForesight(), pos ).sprite.drop();
-		Dungeon.level.drop( new MasterThievesArmband(), pos ).sprite.drop();
-		Dungeon.level.drop( new SkeletonKey(), pos ).sprite.drop();
-		Dungeon.level.drop( new ChaliceOfBlood(), pos ).sprite.drop();
-		Dungeon.level.drop( new CloakOfShadows(), pos ).sprite.drop();
-		Dungeon.level.drop( new TimekeepersHourglass(), pos ).sprite.drop();
-		Dungeon.level.drop( new HornOfPlenty(), pos ).sprite.drop();
-		Dungeon.level.drop( new CapeOfThorns(), pos ).sprite.drop();
-		Dungeon.level.drop( new EtherealChains(), pos ).sprite.drop();
-		Dungeon.level.drop( new UnstableSpellbook(), pos ).sprite.drop();
-		Dungeon.level.drop( new LloydsBeacon(), pos ).sprite.drop();
-		Dungeon.level.drop( new HolyTome(), pos ).sprite.drop();
+		// Drop artifacts randomly scattered
+		Item[] artifacts = {
+				new DriedRose(), new SandalsOfNature(), new AlchemistsToolkit(),
+				new TalismanOfForesight(), new MasterThievesArmband(), new SkeletonKey(),
+				new ChaliceOfBlood(), new CloakOfShadows(), new TimekeepersHourglass(),
+				new HornOfPlenty(), new CapeOfThorns(), new EtherealChains(),
+				new UnstableSpellbook(), new LloydsBeacon(), new HolyTome()
+		};
 
-		//Drop 10 petals
+		for (Item artifact : artifacts) {
+			int targetPos;
+			do {
+				targetPos = Random.Int(Dungeon.level.length());
+			} while (!Dungeon.level.passable[targetPos] || Dungeon.level.solid[targetPos]);
+			Dungeon.level.drop(artifact, targetPos).sprite.drop();
+		}
+
+		// Drop 10 petals randomly scattered
 		for (int i = 0; i < 10; i++){
-			Dungeon.level.drop( new DriedRose.Petal(), pos ).sprite.drop();
+			int targetPos;
+			do {
+				targetPos = Random.Int(Dungeon.level.length());
+			} while (!Dungeon.level.passable[targetPos] || Dungeon.level.solid[targetPos]);
+			Dungeon.level.drop( new DriedRose.Petal(), targetPos ).sprite.drop();
 		}
 		
 		//60% chance of 2 blobs, 30% chance of 3, 10% chance for 4. Average of 2.5
