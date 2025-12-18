@@ -32,7 +32,21 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Invisibility;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.LockedFloor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.AlchemistsToolkit;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CapeOfThorns;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.ChaliceOfBlood;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.DriedRose;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.EtherealChains;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HolyTome;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.HornOfPlenty;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.LloydsBeacon;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.MasterThievesArmband;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SandalsOfNature;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.SkeletonKey;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TalismanOfForesight;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
+import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.UnstableSpellbook;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.WornKey;
 import com.shatteredpixel.shatteredpixeldungeon.items.quest.GooBlob;
 import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
@@ -288,6 +302,28 @@ public class Goo extends Mob {
 		
 		GameScene.bossSlain();
 		Dungeon.level.drop( new WornKey( Dungeon.depth ), pos ).sprite.drop();
+
+		//Drop all artifacts
+		Dungeon.level.drop( new DriedRose(), pos ).sprite.drop();
+		Dungeon.level.drop( new SandalsOfNature(), pos ).sprite.drop();
+		Dungeon.level.drop( new AlchemistsToolkit(), pos ).sprite.drop();
+		Dungeon.level.drop( new TalismanOfForesight(), pos ).sprite.drop();
+		Dungeon.level.drop( new MasterThievesArmband(), pos ).sprite.drop();
+		Dungeon.level.drop( new SkeletonKey(), pos ).sprite.drop();
+		Dungeon.level.drop( new ChaliceOfBlood(), pos ).sprite.drop();
+		Dungeon.level.drop( new CloakOfShadows(), pos ).sprite.drop();
+		Dungeon.level.drop( new TimekeepersHourglass(), pos ).sprite.drop();
+		Dungeon.level.drop( new HornOfPlenty(), pos ).sprite.drop();
+		Dungeon.level.drop( new CapeOfThorns(), pos ).sprite.drop();
+		Dungeon.level.drop( new EtherealChains(), pos ).sprite.drop();
+		Dungeon.level.drop( new UnstableSpellbook(), pos ).sprite.drop();
+		Dungeon.level.drop( new LloydsBeacon(), pos ).sprite.drop();
+		Dungeon.level.drop( new HolyTome(), pos ).sprite.drop();
+
+		//Drop 10 petals
+		for (int i = 0; i < 10; i++){
+			Dungeon.level.drop( new DriedRose.Petal(), pos ).sprite.drop();
+		}
 		
 		//60% chance of 2 blobs, 30% chance of 3, 10% chance for 4. Average of 2.5
 		int blobs = Random.chances(new float[]{0, 0, 6, 3, 1});
