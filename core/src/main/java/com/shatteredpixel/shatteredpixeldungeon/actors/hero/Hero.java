@@ -198,7 +198,7 @@ public class Hero extends Char {
 	
 	public static final int MAX_LEVEL = 30;
 
-	public static final int STARTING_STR = 10;
+	public static final int STARTING_STR = 100;
 	
 	private static final float TIME_TO_REST		    = 1f;
 	private static final float TIME_TO_SEARCH	    = 2f;
@@ -210,8 +210,8 @@ public class Hero extends Char {
 	public ArrayList<LinkedHashMap<Talent, Integer>> talents = new ArrayList<>();
 	public LinkedHashMap<Talent, Talent> metamorphedTalents = new LinkedHashMap<>();
 	
-	private int attackSkill = 10;
-	private int defenseSkill = 5;
+	private int attackSkill = 100;
+	private int defenseSkill = 50;
 
 	public boolean ready = false;
 	public boolean damageInterrupt = true;
@@ -243,7 +243,7 @@ public class Hero extends Char {
 	public Hero() {
 		super();
 
-		HP = HT = 20;
+		HP = HT = 200;
 		STR = STARTING_STR;
 		
 		belongings = new Belongings( this );
@@ -254,7 +254,7 @@ public class Hero extends Char {
 	public void updateHT( boolean boostHP ){
 		int curHT = HT;
 		
-		HT = 20 + 5*(lvl-1) + HTBoost;
+		HT = (20 + 5*(lvl-1) + HTBoost) * 10;
 		float multiplier = RingOfMight.HTMultiplier(this);
 		HT = Math.round(multiplier * HT);
 		
@@ -656,7 +656,7 @@ public class Hero extends Char {
 			dr += buff(HoldFast.class).armorBonus();
 		}
 		
-		return dr;
+		return dr * 10;
 	}
 	
 	@Override
@@ -692,7 +692,7 @@ public class Hero extends Char {
 		}
 
 		if (dmg < 0) dmg = 0;
-		return dmg;
+		return dmg * 10;
 	}
 
 	//damage rolls that come from the hero can have their RNG influenced by clover
@@ -707,7 +707,7 @@ public class Hero extends Char {
 	@Override
 	public float speed() {
 
-		float speed = super.speed();
+		float speed = super.speed() * 10f;
 
 		speed *= RingOfHaste.speedMultiplier(this);
 		
@@ -783,7 +783,7 @@ public class Hero extends Char {
 
 		if (!RingOfForce.fightingUnarmed(this)) {
 			
-			return delay * belongings.attackingWeapon().delayFactor( this );
+			return (delay * belongings.attackingWeapon().delayFactor( this )) / 10f;
 			
 		} else {
 			//Normally putting furor speed on unarmed attacks would be unnecessary
@@ -801,7 +801,7 @@ public class Hero extends Char {
 				delay = ((Weapon)belongings.weapon).augment.delayFactor(delay);
 			}
 
-			return delay/speed;
+			return (delay/speed) / 10f;
 		}
 	}
 
@@ -1963,7 +1963,7 @@ public class Hero extends Char {
 
 		//xp granted by ascension challenge is only for on-exp gain effects
 		if (source != AscensionChallenge.class) {
-			this.exp += exp;
+			this.exp += exp * 10;
 		}
 		float percent = exp/(float)maxExp();
 
@@ -2024,8 +2024,8 @@ public class Hero extends Char {
 				}
 				
 				updateHT( true );
-				attackSkill++;
-				defenseSkill++;
+				attackSkill += 10;
+				defenseSkill += 10;
 
 			} else {
 				Buff.prolong(this, Bless.class, Bless.DURATION);

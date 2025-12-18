@@ -20,6 +20,18 @@ android {
 
     }
 
+    signingConfigs {
+        release {
+            def keystoreFile = project.findProperty('RELEASE_STORE_FILE') ?: "release.keystore"
+            if (file(keystoreFile).exists()) {
+                storeFile file(keystoreFile)
+                storePassword project.findProperty('RELEASE_STORE_PASSWORD') ?: "password"
+                keyAlias project.findProperty('RELEASE_KEY_ALIAS') ?: "alias"
+                keyPassword project.findProperty('RELEASE_KEY_PASSWORD') ?: "password"
+            }
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix ".indev"
@@ -30,6 +42,7 @@ android {
             }
         }
         release {
+            signingConfig signingConfigs.release
 
             //These lines enable R8, which is a code shrinker/optimizer/obfuscator.
             //This makes release APKs smaller and more efficient, but also makes debugging trickier
